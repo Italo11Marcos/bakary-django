@@ -2,11 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager #AbstractBaseUser - bem básico
 from stdimage.models import StdImageField
 from django.utils.safestring import mark_safe
+import uuid
 
 def get_file_path(_instance, filename):
     ext = filename.split('.')[-1]
     name = filename.split('.')[0]
-    filename = f'{name}.{ext}'
+    codigo = uuid.uuid1()
+    codigo = str(codigo).split('-')[0]
+    filename = f'{name}-{codigo}.{ext}'
     return filename
 
 class UsuarioManager(BaseUserManager):
