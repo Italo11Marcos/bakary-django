@@ -70,7 +70,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto p-4 p-lg-0">
-                <a href="{% url 'meus_pedidos' request.user.id %}" class="nav-item nav-link">Meus Pedidos</a>
+                {% if request.user.id %}
+                    <a href="{% url 'meus_pedidos' request.user.id %}" class="nav-item nav-link">Meus Pedidos</a>
+                {% endif %}
                 <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
                 <a href="{% url 'cadastro' %}" class="nav-item nav-link">Cadastro</a>
             </div>
