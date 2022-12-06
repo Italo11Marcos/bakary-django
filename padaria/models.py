@@ -88,19 +88,14 @@ class Pedido(models.Model):
         ('cartao-debito', 'Débito')
     )
     STATUS_CHOICES = (
-        ('separando', 'Separando'),
+        ('preparando', 'Preparando'),
         ('concluido', 'Concluído'),
-        ('preparando-entrega', 'Preparando'),
-        ('saiu-entrega', 'Em Trânsito'),
-        ('entregue', 'Entregue'),
-        ('cancelado', 'Cancelado')
+        ('entrega', 'Em Trânsito'),
     )
     codigo = models.CharField('Código', max_length=20)
     pagamento = models.CharField('Pagamento', max_length=20, choices=PAGAMENTO_CHOICES, default=PAGAMENTO_CHOICES[0][0])
     statusPedido = models.CharField('Status', max_length=20, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
     valorPedido = models.DecimalField('Valor Total', max_digits=6, decimal_places=2)
-    valorProduto = models.DecimalField('Valor Produto', max_digits=6, decimal_places=2)
-    quantidadeProduto = models.IntegerField('Quantidade Produto')
     dataCriacao = models.DateTimeField('Criação', auto_now_add=True)
     dataAtualizacao = models.DateTimeField('Atualização', auto_now=True)
     produtos = models.ManyToManyField(Produto, through='ItensPedido')

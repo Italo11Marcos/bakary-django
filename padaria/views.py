@@ -41,6 +41,7 @@ def login_user(request):
             login(request, user)
             return redirect('index')
         else:
+            messages.warning(request, 'Usuário ou Senha errados')
             return redirect('login')
     return render(request, 'login.html')
 
@@ -61,12 +62,13 @@ def fazer_pedido(request):
                 prods.append([p.id, p.precoUnitario, qnt])
                 total += (p.precoUnitario * qnt)
         lista = []
-        pedido = Pedido.objects.create(codigo=codigo, pagamento=pagamento, statusPedido='separando', valorPedido=total, user=user, valorProduto=0, quantidadeProduto=0)
+        pedido = Pedido.objects.create(codigo=codigo, pagamento=pagamento, statusPedido='separando', valorPedido=total, user=user)
         for p in prods:
             produto = Produto.objects.get(id=p[0])
             lista.append(produto)
             ItensPedido.objects.create(codigo=codigo, valorProduto=produto.precoUnitario, quantidadeProduto=p[-1], valorPedido=total, produto=produto, pedido=pedido)
         pedido.produtos.add(produto)
+        messages.success(request, 'Pedido realizado com sucesso')
     
     context = {
         'produtos': produtos

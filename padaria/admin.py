@@ -10,8 +10,9 @@ admin.site.index_title = "Dolce Caffè"
 
 @admin.register(CustomUsuario)
 class CustomUsuario(admin.ModelAdmin):
-    list_display = ['id', 'username', 'email', 'cpf', 'estado', 'cidade', 'celular','last_login', 'date_joined', 'is_superuser', 'username', 'first_name', 'last_name', 'is_active', 'rua', 'numero', 'cep', 'dataNascimento', 'password']
-    list_filter = ('is_superuser',)
+    list_display = ['id', 'username', 'is_staff','email', 'cpf', 'estado', 'cidade', 'celular','last_login', 'date_joined', 'first_name', 'last_name', 'rua', 'numero', 'cep']
+    list_filter = ('is_staff',)
+    list_editable = ('username', 'is_staff','email', 'cpf', 'estado', 'cidade', 'celular','first_name', 'last_name', 'rua', 'numero', 'cep')
 
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):

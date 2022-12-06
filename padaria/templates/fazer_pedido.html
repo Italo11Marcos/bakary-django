@@ -63,7 +63,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-        <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
+        <a href="{% url 'index' %}" class="navbar-brand ms-4 ms-lg-0">
             <h1 class="text-primary m-0">Dolce Caffè</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -103,13 +103,22 @@
             </div>
             <form method="post">
                 {% csrf_token %}
+                {% if messages %}
+                <div class="alert alert-success" role="alert">  
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
             <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-6 mb-4">Faça seu Pedido</h1>
             </div>
             <div class="row g-4">
                 {% for p in produtos %}
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="product-item d-flex flex-column bg-white rounded overflow-hidden h-100">
+                    <div class="d-flex flex-column bg-white rounded overflow-hidden h-100">
                         <div class="text-center p-4">
                             <div class="d-inline-block border border-primary rounded-pill px-3 mb-3">R${{ p.precoUnitario }}</div>
                             <div><input class="d-inline-block border border-primary rounded-pill px-3 mb-3 js-helper" id="qnt_{{ p.sabor }}" type="number" min="0" value="0" name="{{ p.sabor }}"></div>
@@ -125,19 +134,22 @@
                 {% endfor %}
                 <input type="hidden" name="user" value="{{ request.user.id }}">
                 <input type="hidden" name="valor_total" id="teste2" value="0">
-                <div class="col-lg-4 col-md-6">
-                    <h4 class="mb-3" id="teste1">Total: R$0</h3>
-                    <h5 class="mb-3">Forma de Pagamento:</h4>
+            </div>
+            <div class="row mt-5">
+            <div class="col-lg-6 col-md-6">
+                <h4 class="mb-3" id="teste1">Total: R$0</h4>
+                 <p class="small"><b>Obs:</b> O pagamento deverá ser feito na hora da entrega!</p>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <h5 class="mb-3">Forma de Pagamento:</h4>
                     <select name="pagamento" id="pagamento" class="form-control">
                         <option value="dinheiro">Dinheiro</option>
                         <option value="cartao-credito">Crédito</option>
                         <option value="cartao-debito">Débito</option>
                     </select>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <p class="small"><b>Obs:</b> O pagamento deverá ser feito na hora da entrega!</p>
-                </div>
-                <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Finalizar Pedido</button>
+                
+            </div>
+            <button class="btn btn-primary rounded-pill py-3 px-5 mt-2" type="submit">Finalizar Pedido</button>
             </div>
         </form>
         </div>
